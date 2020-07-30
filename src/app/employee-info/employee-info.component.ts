@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 export class EmployeeInfoComponent implements OnInit, AfterViewInit {
   @ViewChild('employeeForm') employeeForm: NgForm
   newEditMode: boolean
+  editEmployeeId
+  employees: any = [];
   namePattern = ".{4,}";
   mobNumberPattern = "^((\\+91-?)|0)?[0-9]{10}$";
 
@@ -24,6 +26,12 @@ export class EmployeeInfoComponent implements OnInit, AfterViewInit {
         this.newEditMode = data
       }
     )
+
+    this._employeeService.newEmployeeId.subscribe(
+      (data) => {
+        this.editEmployeeId = data
+      }
+    )
   }
 
   ngAfterViewInit() {
@@ -35,6 +43,13 @@ export class EmployeeInfoComponent implements OnInit, AfterViewInit {
     if (this.employeeForm.valid) {
       if (this.newEditMode) {
         console.log("In edit mode",this.newEditMode)
+       
+        this.employees[this.editEmployeeId] = this.employeeForm.value
+        this._employeeService.newAddedUser.next(this.employees)
+        console.log("ussseees=>", this.employees)
+        this.employeeForm.reset();
+        this.newEditMode = false;
+        this.router.navigate(['employees'])
       } else {
         console.log(this.employeeForm.value.address1)
         let emp = [
@@ -44,8 +59,8 @@ export class EmployeeInfoComponent implements OnInit, AfterViewInit {
             "name": this.employeeForm.value.name,
             "phone": this.employeeForm.value.phone,
             "address": {
-              address_line1: this.employeeForm.value.address1,
-              address_line2: this.employeeForm.value.address2,
+              address_line1: this.employeeForm.value.address_line1,
+              address_line2: this.employeeForm.value.address_line2,
               city: this.employeeForm.value.city,
               postal_code: this.employeeForm.value.postal_code
             },
@@ -53,7 +68,13 @@ export class EmployeeInfoComponent implements OnInit, AfterViewInit {
         ]
 
         console.log("p =>", emp[0])
-        this._employeeService.allEmployees.push(emp[0])
+        this._employeeService.addEmployee(emp[0])
+        .subscribe(data => {
+          this.employees = data;
+          console.log(this.employees);
+        });
+       
+        this.employeeForm.reset();
         this.router.navigate(['employees'])
       }
     } else {

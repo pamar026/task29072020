@@ -24,8 +24,9 @@ export class EmployeeListComponent implements OnInit {
   }
 
   getEmployeesList() {
+ 
     this._employeeService.getEmployees()
-      .pipe(pluck('data'))
+      //.pipe(pluck('data'))
       .subscribe(
         (res) => {
           console.log(res)
@@ -51,6 +52,7 @@ export class EmployeeListComponent implements OnInit {
   onUpdateEmployee(i) {
     this.router.navigate(['employees/add'])
     this._employeeService.editMode.next(true);
+    this._employeeService.newEmployeeId.next(i)
     this.editEmployeeForm = this._employeeService.newEmployeeForm
     console.log(this.editEmployeeForm)
     this.editEmployeeForm.setValue(
@@ -64,11 +66,5 @@ export class EmployeeListComponent implements OnInit {
         postal_code: this.employees[i].address.postal_code
       }
     )
-
-
-
   }
-
- 
-
 }
