@@ -1,0 +1,46 @@
+<div>
+    <h3>
+        Employee List
+     </h3>
+     <div>
+         <table width="100%">
+         <tr>
+             <td>
+                 <input type="text" placeholder="Search" [(ngModel)] = "nameSearch">        
+             </td>
+             <td class="right">
+                 <button type="submit" (click)="addNewEmployee()">Add New</button>
+             </td>
+         </tr>
+     </table>
+     </div>
+     <br>
+     <table class="table" cellpadding='5' cellspacing='5'>
+         <thead>
+           <tr>
+             <th>Id</th>
+             <th>Name</th>
+             <th>Phone</th>
+             <th>City</th>
+             <th>Address1</th>
+             <th>Address2</th>
+             <th>Postal Code</th>
+             <td></td>
+           </tr>
+         </thead>
+         <tbody>
+           <tr *ngFor="let employee of employees | filter : nameSearch;index as i">
+             <td>{{employee.id}}</td>
+             <td>{{employee.name}}</td>
+             <td>{{employee.phone }}</td>
+             <td>{{employee.address.city}}</td>
+             <td>{{employee.address.address_line1}}</td>
+             <td>{{employee.address.address_line2}}</td>
+             <td>{{employee.address.postal_code}}</td>
+             <td class="pointer" (click)="onUpdateEmployee(i)">Edit</td>
+           </tr>
+           </tbody>
+     </table>
+</div>
+
+

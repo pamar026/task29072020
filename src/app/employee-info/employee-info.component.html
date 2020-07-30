@@ -1,0 +1,59 @@
+<h3>
+    Employee Details
+</h3>
+<form #employeeForm='ngForm' (ngSubmit)='onAddEmployee()'>
+    <table cellpadding='5' cellspacing='5' width="100%">
+        <tr>
+            <td>
+                <input type="text" placeholder="Id" name="id" 
+                ngModel required>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" placeholder="Name" name="name" 
+                ngModel required  #name="ngModel" [pattern]="namePattern">
+                <small *ngIf="!name.valid && name.touched">Please enter Name</small>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" placeholder="Phone" name="phone" 
+                ngModel required  #phone="ngModel"  [pattern]="mobNumberPattern">
+                <small *ngIf="!phone.valid && phone.touched"> Mobile number not valid.</small>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" placeholder="City" name="city" 
+                ngModel required>
+            </td>
+        </tr>
+      
+        <tr>
+            <td>
+                <input type="text" placeholder="Address1" name="address_line1" 
+                ngModel required>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" placeholder="Address2" name="address_line2" 
+                ngModel required>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" placeholder="Postal Code" name="postal_code" 
+                ngModel required>
+            </td>
+        </tr>
+        <tr>
+            <td class="right">
+                <button type="submit" [disabled]="!employeeForm.valid">{{newEditMode ? 'Edit': 'Add'}}</button>
+            </td>
+        </tr>
+    </table>
+
+
+</form>
